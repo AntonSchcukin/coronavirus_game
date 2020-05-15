@@ -1,5 +1,6 @@
 import arcade
 import random
+import time
 from Virus import *
 
 
@@ -14,10 +15,12 @@ class Game(arcade.Window):
     def __init__(self, width, height):
         super(Game, self).__init__(width, height, SCREEN_TITLE)
         self.background = None
+        self.music = arcade.Sound(f'data//sound//bg_music.mp3')
 
     def setup(self):
         self.virus_list = arcade.SpriteList()
         self.background = arcade.load_texture("data//img//bg.png")
+        self.music.play(0.1)
 
     def on_draw(self):
         arcade.start_render()
@@ -36,7 +39,14 @@ class Game(arcade.Window):
             virus.center_y = SCREEN_HEIGHT + 50
             virus.change_y = -VIRUS_SPEED + score // 10
             self.virus_list.append(virus)
+        for virus in self.virus_list:
+            if virus.center_y == 0:
+                virus.remove_from_sprite_lists()
         self.virus_list.update()
+
+        position = self.music.get_stream_position()
+        if position == 0.0:
+            self.music.play(0.1)
 
 
 def main():

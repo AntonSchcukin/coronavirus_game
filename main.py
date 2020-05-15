@@ -22,6 +22,9 @@ class Game(arcade.Window):
         self.background = arcade.load_texture("data//img//bg.png")
         self.music.play(0.1)
 
+        self.view_left = 0
+        self.view_bottom = 0
+
     def on_draw(self):
         arcade.start_render()
         arcade.draw_lrwh_rectangle_textured(0, 0,
@@ -31,6 +34,7 @@ class Game(arcade.Window):
         for x in range(SCREEN_WIDTH // fields_number, SCREEN_WIDTH, SCREEN_WIDTH // fields_number):
             arcade.draw_line(x, 0, x, SCREEN_HEIGHT, arcade.color.BLACK, 4)
         self.virus_list.draw()
+        arcade.draw_text(str(score), self.view_left + 10, self.view_bottom + SCREEN_HEIGHT - 30, arcade.csscolor.BLACK, 20)
 
     def on_update(self, delta_time):
         if random.randrange(200) == 0:
